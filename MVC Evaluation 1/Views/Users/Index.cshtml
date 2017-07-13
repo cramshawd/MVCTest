@@ -1,0 +1,129 @@
+﻿@model IEnumerable<MVC_Evaluation_1.Models.User>
+
+@{
+    ViewBag.Title = "Users";
+    MVC_Evaluation_1.Models.UserService svcUser = new MVC_Evaluation_1.Models.UserService();
+    MVC_Evaluation_1.ViewModels.UserViewModel uvm = new MVC_Evaluation_1.ViewModels.UserViewModel(svcUser.getUser(4));
+}
+
+<h2>User List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            Diplay Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastLogin)
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @item.getDisplayNameLastFirst()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastLogin)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                <a data-toggle="modal" data-target="@Html.Raw("#myModal"+@item.Id)" style="cursor: pointer;">Details</a> |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+@foreach (var item in Model)
+{
+    <div id="@Html.Raw("myModal" + @item.Id)" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">User Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.Email)</Strong></div>
+                        <div class="col-md-6">@Html.DisplayFor(modelItem => item.Email)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.LastName)</Strong></div>
+                        <div class="col-md-6">@Html.DisplayFor(modelItem => item.LastName)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.FirstName)</Strong></div>
+                        <div class="col-md-6">@Html.DisplayFor(modelItem => item.FirstName)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.PhoneNumber)</Strong></div>
+                        <div class="col-md-6">@Html.DisplayFor(modelItem => item.PhoneNumber)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.EmpType)</Strong></div>
+                        <div class="col-md-6">@Html.DisplayFor(modelItem => item.EmpType.Name)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.CompanyName)</Strong></div>
+                        <div class="col-md-6">@Html.DisplayFor(modelItem => item.CompanyName)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.IsActive)</Strong></div>
+                        <div class="col-md-6">@Html.EditorFor(model => item.IsActive, new { htmlAttributes = new { @disabled = "disabled" } })</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.LastLogin)</Strong></div>
+                        <div class="col-md-6">@Html.DisplayFor(modelItem => item.LastLogin)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.CreatedDate)</Strong></div>
+                        <div class="col-md-6">@Html.DisplayFor(modelItem => item.CreatedDate)</div>
+                     </div>
+                    <div class="row">
+                        <div class="col-md-3"><Strong>@Html.DisplayNameFor(model => model.CreatedBy)</Strong></div>
+                        <div class="col-md-6">@Html.DisplayFor(modelItem => item.CreatedBy)</div>
+                    </div>
+                    <div>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        <a data-dismiss="modal">Back To List</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
